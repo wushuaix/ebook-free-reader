@@ -6,6 +6,7 @@
 <script>
 import Epub from "epubjs";
 import { ebookMixin } from "../../untils/mixin.js";
+import {saveFontFamily,getFontFamily} from "../../untils/localStorage.js";
 global.ePub = Epub;
 export default {
   mixins: [ebookMixin],
@@ -44,7 +45,14 @@ export default {
         height: innerHeight,
         method: "default"
       });
-      this.rendition.display();
+      this.rendition.display().then(()=>{
+        let font=getFontFamily(this.fileName)
+        if(!font){
+          saveFontFamily(this.fileName,this.defaultFontFamily)
+        }else{
+          this.rendition.themes.font(font)
+        }
+      });
       //注册屏幕触控事件
       this.rendition.on("touchstart", event => {
         this.touchStartX = event.changedTouches[0].clientX;

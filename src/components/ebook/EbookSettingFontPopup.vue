@@ -23,6 +23,7 @@
 </template>
 <script>
 import { ebookMixin } from "../../untils/mixin.js";
+import {saveFontFamily,getFontFamily} from "../../untils/localStorage.js";
 import {FONT_FAMILY} from "../../untils/book.js"
 export default {
   mixins:[ebookMixin],
@@ -40,6 +41,7 @@ export default {
     },
     setFontFamily(font){
       this.setDefaultFontFamily(font)
+      saveFontFamily(this.fileName,font)
       if(font==="Default"){
          this.currentBook.rendition.themes.font("Times New Roman")
       }else{
