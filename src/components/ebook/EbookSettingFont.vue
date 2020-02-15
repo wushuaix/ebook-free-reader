@@ -40,6 +40,7 @@
 <script>
 import { ebookMixin } from "../../untils/mixin.js";
 import { FONT_SIZE_LIST } from "../../untils/book.js";
+import {saveFontSize,getFontSize} from "../../untils/localStorage.js";
 export default {
   data() {
     return {
@@ -50,6 +51,7 @@ export default {
   methods: {
     setFontSize(fontSize) {
       this.setDefaultFontSize(fontSize);
+      saveFontSize(this.fileName,fontSize)
       this.currentBook.rendition.themes.fontSize(fontSize);
     },
     showFontFamilyPopup(){
