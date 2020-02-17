@@ -2,6 +2,7 @@ import { mapGetters, mapActions } from 'vuex'
 import { themeList } from "./book.js";
 import {addCss, removeAllCss} from "./book";
 import {saveLocation} from "./localStorage"
+import {getReadTimeByMinute} from "./book";
 
 export const ebookMixin = {
     computed: {
@@ -28,6 +29,17 @@ export const ebookMixin = {
         ]),
         themeList(){
             return themeList(this)
+        },
+        getSectionName(){
+            if(this.section){
+                const sectionInfo=this.currentBook.section(this.section);
+                if (sectionInfo&&sectionInfo.href&&this.currentBook&&this.currentBook.navigation
+                    &&this.currentBook.navigation.get(sectionInfo.href)) {
+                    return this.currentBook.navigation.get(sectionInfo.href).label
+                }
+            }
+            return ''
+            // return this.section?this.navigation[this.section][0].label:''
         }
     },
     methods: {
@@ -76,17 +88,19 @@ export const ebookMixin = {
         //此函数用于保存文章刷新后的进度
         refreshLocation(){
             //currentLocation：Get the Current Location object
-            const currentLocation=this.currentBook.rendition.currentLocation();
-            //currentLocation()返回对象中有start对象,start对象中cfi属性,记录电子书中的位置
-            const startCfi=currentLocation.start.cfi;
-            //locations.percentageFromCfi:Get a percentage position in locations from an EpubCFI,Returns [number]
-            const progress=this.currentBook.locations.percentageFromCfi(startCfi);
-            //设置刷新后的进度值
-            this.setProgress(Math.floor(progress*100));
-            //设置刷新后的章节值
-            this.setSection(currentLocation.start.index);
-            //本地持久化存储刷新后的值
-            saveLocation(this.fileName,startCfi)
+                const currentLocation=this.currentBook.rendition.currentLocation();
+                if(currentLocation&&currentLocation.start){
+                    //currentLocation()返回对象中有start对象,start对象中cfi属性,记录电子书中的位置
+                    const startCfi=currentLocation.start.cfi;
+                    //locations.percentageFromCfi:Get a percentage position in locations from an EpubCFI,Returns [number]
+                    const progress=this.currentBook.locations.percentageFromCfi(startCfi);
+                    //设置刷新后的进度值
+                    this.setProgress(Math.floor(progress*100));
+                    //设置刷新后的章节值
+                    this.setSection(currentLocation.start.index);
+                    //本地持久化存储刷新后的值
+                    saveLocation(this.fileName,startCfi)
+                }
         },
         //此函数用于渲染当前电子书,rendition.display函数:Display a point in the book.The request will be added
         // to the rendering Queue,so it will wait until book is opened, rendering started and all other rendering
@@ -106,6 +120,15 @@ export const ebookMixin = {
                     this.refreshLocation()
                 })
             }
+            this.hideTitleAndMenu()
+        },
+        hideTitleAndMenu(){
+            this.setMenuVisible(false);
+            this.setSettingVisible(-1);
+            this.setFontFamilyVisible(false)
+        },
+        getReadTimeText(){
+            return this.$t('book.haveRead').replace('$1',getReadTimeByMinute(this.fileName))
         }
     }
 }

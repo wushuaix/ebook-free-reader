@@ -23,7 +23,7 @@
                 </div>
                 <div class="text-wrapper">
                     <span class="progress-section-text">{{getSectionName}}</span>
-                    <span>{{bookAvailable ? progress + '%' : '加载中...'}}</span>
+                    <span>({{bookAvailable ? progress + '%' : '加载中...'}})</span>
                 </div>
             </div>
         </div>
@@ -31,18 +31,11 @@
 
 <script>
     import { ebookMixin } from "../../untils/mixin.js";
-    import {getReadTime} from "../../untils/localStorage";
+
     export default {
         mixins:[ebookMixin],
         computed:{
-            getSectionName(){
-                if(this.section){
-                    const sectionInfo=this.currentBook.section(this.section)
-                    if (sectionInfo&&sectionInfo.href) {
-                        return this.currentBook.navigation.get(sectionInfo.href).label
-                    }
-                }
-            }
+
         },
         data(){
             return{
@@ -94,17 +87,6 @@
                 const sectionInfo=this.currentBook.section(this.section);
                 if(sectionInfo&&sectionInfo.href){
                     this.display(sectionInfo.href)
-                }
-            },
-            getReadTimeText(){
-                return this.$t('book.haveRead').replace('$1',this.getReadTimeByMinute())
-            },
-            getReadTimeByMinute(){
-                const readTime=getReadTime(this.fileName)
-                if(!readTime){
-                    return 0
-                }else{
-                    return Math.ceil(readTime/60)
                 }
             }
         },

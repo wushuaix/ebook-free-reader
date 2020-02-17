@@ -24,6 +24,7 @@
       <ebook-setting-font></ebook-setting-font>
       <ebook-setting-theme></ebook-setting-theme>
       <ebook-setting-progress></ebook-setting-progress>
+      <ebook-slide></ebook-slide>
     </div>
   </div>
 </template>
@@ -31,7 +32,8 @@
 import { ebookMixin } from "../../untils/mixin.js";
 import EbookSettingFont from "./EbookSettingFont";
 import EbookSettingTheme from "./EbookSettingTheme";
-import EbookSettingProgress from "./EbookSettingProgress"
+import EbookSettingProgress from "./EbookSettingProgress";
+import EbookSlide from "./EbookSlide"
 export default {
   mixins: [ebookMixin],
   methods: {
@@ -42,7 +44,8 @@ export default {
   components: {
     EbookSettingFont,
     EbookSettingTheme,
-    EbookSettingProgress
+    EbookSettingProgress,
+    EbookSlide
   }
 };
 </script>
