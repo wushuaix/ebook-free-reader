@@ -4,7 +4,7 @@
             <transition name="slide-right">
                 <!--  加v-if可以使动画流畅显示出来,transition动画具有叠加效果-->
                 <div class="content" v-if="settingVisible===3">
-                    <div class="content-page-wrapper">
+                    <div class="content-page-wrapper" v-if="!bookAvailable">
                         <div class="content-page">
                             <component :is="currentTab===1?content:bookmark"></component>
                         </div>
@@ -19,6 +19,9 @@
                             >{{$t('book.bookmark')}}</div>
                         </div>
                     </div>
+                    <div class="content-empty" v-else>
+                        <ebook-loading></ebook-loading>
+                    </div>
                 </div>
             </transition>
             <div class="content-bg" @click="hide()"></div>
@@ -28,9 +31,13 @@
 
 <script>
     import {ebookMixin} from "../../untils/mixin";
-    import EbookSlideContents from "./EbookSlideContents"
+    import EbookSlideContents from "./EbookSlideContents";
+    import EbookLoading from "./EbookLoading"
     export default {
         mixins:[ebookMixin],
+        components:{
+            EbookLoading
+        },
         data(){
             return{
                 currentTab:1,
@@ -84,6 +91,11 @@
                         @include center
                     }
                 };
+            }
+            .content-empty{
+                width: 100%;
+                height: 100%;
+                @include center
             }
         };
         .content-bg{
