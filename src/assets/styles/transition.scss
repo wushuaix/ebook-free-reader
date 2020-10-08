@@ -1,3 +1,5 @@
+@import "mixin";
+
 .slide-down-enter,
 .slide-down-leave-to {
     transform: translate3d(0, -100%, 0)
@@ -17,8 +19,12 @@
 .fade-enter-active,
 .fade-leave-active,
 .slide-right-enter-active,
-.slide-right-leave-active {
-    transition: all .3s linear;
+.slide-right-leave-active,
+.title-move-enter-active,
+.title-move-leave-active,
+.hot-search-move-enter-active,
+.hot-search-move-leave-active{
+    transition: all .2s linear;
 }
 
 .slide-up-enter,
@@ -42,6 +48,8 @@
 }
 
 // enter,leave-to代表动画的初始位置
+//v-enter->v-enter-active->v-enter-to为Enter阶段动画
+//v-leave->v-leave-active->v-leave-to为Leave阶段动画
 .popup-slide-up-enter,
 .popup-slide-up-leave-to {
     transform: translate3d(0, 100%, 0);
@@ -52,7 +60,11 @@
 .popup-slide-up-enter-to,
 .popup-slide-up-leave,
 .fade-slide-right-enter-to,
-.fade-slide-right-leave{
+.fade-slide-right-leave,
+.title-move-enter-to,
+.title-move-leave,
+.hot-search-move-enter-to,
+.hot-search-move-leave{
     transform: translate3d(0, 0, 0);
     opacity: 1;
 }
@@ -65,10 +77,17 @@
     transition: all 0.2s linear;
 }
 
-.fade-slide-right-enter,
-.fade-slide-right-leave-to{
-    transform: translate3d(-100%, 0, 0);
+.title-move-enter,
+.title-move-leave-to{
+    transform: translate3d(0,px2rem(10), 0);
     opacity: 0;
 }
+
+.hot-search-move-enter,
+.hot-search-move-leave-to{
+    transform: translate3d(0,px2rem(30), 0);
+    opacity: 0;
+}
+
 
 

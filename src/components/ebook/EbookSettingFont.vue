@@ -4,6 +4,7 @@
       <div class="setting-wrapper" v-show="menuVisible&&settingVisible===0">
         <div class="setting-font-size">
           <div class="preview" :style="{fontSize: fontSizeList[0].fontSize + 'px'}">A</div>
+          <!-- 设置字体大小横线区域开始-->
           <div class="select">
             <div
               class="select-wrapper"
@@ -20,6 +21,7 @@
               <div class="line"></div>
             </div>
           </div>
+          <!-- 设置字体大小横线区域结束-->
           <div
             class="preview"
             :style="{fontSize: fontSizeList[fontSizeList.length - 1].fontSize + 'px'}"
@@ -38,9 +40,9 @@
   </div>
 </template>
 <script>
-import { ebookMixin } from "../../untils/mixin.js";
-import { FONT_SIZE_LIST } from "../../untils/book.js";
-import {saveFontSize,getFontSize} from "../../untils/localStorage.js";
+import { ebookMixin } from "../../utils/mixin.js";
+import { FONT_SIZE_LIST } from "../../utils/book.js";
+import {saveFontSize,getFontSize} from "../../utils/localStorage.js";
 export default {
   data() {
     return {
@@ -66,7 +68,7 @@ export default {
   position: absolute;
   bottom: px2rem(48);
   left: 0;
-  z-index: 101;
+  z-index: 190;
   width: 100%;
   height: px2rem(90);
   display: flex;
@@ -88,6 +90,7 @@ export default {
         flex: 1;
         display: flex;
         align-items: center;
+        /*&表示同级元素*/
         &:first-child {
           .line {
             &:first-child {

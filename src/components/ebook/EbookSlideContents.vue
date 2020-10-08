@@ -23,8 +23,12 @@
                 <img :src="cover" class="slide-contents-book-img">
             </div>
             <div class="slide-contents-book-info-wrapper">
-                <div class="slide-contents-book-title">{{metadata.title}}</div>
-                <div class="slide-contents-book-author">{{metadata.creator}}</div>
+                <div class="slide-contents-book-title">
+                    <span class="slide-contents-book-title-text">{{metadata.title}}</span>
+                </div>
+                <div class="slide-contents-book-author">
+                    <span class="slide-contents-book-author-text">{{metadata.creator}}</span>
+                </div>
             </div>
             <div class="slide-contents-book-progress-wrapper">
                 <div class="slide-contents-book-progress">
@@ -41,11 +45,11 @@
             <div class="slide-contents-item" v-for="(item,index) in navigation" :key="index">
                 <span class="slide-contents-item-label"
                       :style="contentItemStyle(item)"
-                      :class="{'selected':item[0].label===getSectionName}"
-                      @click="displayNavigation(item[0].href)">
-                    {{item[0].label}}
+                      :class="{'selected':item.label===getSectionName}"
+                      @click="displayNavigation(item.href)">
+                    {{item.label}}
                 </span>
-                <span class="slide-contents-item-page"></span>
+                <span class="slide-contents-item-page">{{item.page}}</span>
             </div>
         </scroll>
         <scroll class="slide-search-list" :top="66" :bottom="48" v-show="searchVisible">
@@ -60,9 +64,9 @@
 </template>
 
 <script>
-    import {ebookMixin} from "../../untils/mixin";
+    import {ebookMixin} from "../../utils/mixin";
     import Scroll from "../../components/common/Scroll";
-    import {px2rem} from "../../untils/untils";
+    import {px2rem} from "../../utils/utils";
 
     export default {
         mixins:[ebookMixin],
@@ -95,12 +99,15 @@
                     this.hideTitleAndMenu()
                 })
             },
-            doSearch(q){
+            //全文搜索算法
+            doSearch: function (q) {
                 return Promise.all(
+                    //this.currentBook.spine.spineItems为Section对象,为每个章节的内容
                     this.currentBook.spine.spineItems.map(item =>
                         item.load(this.currentBook.load.bind(this.currentBook))
                             .then(item.find.bind(item, q))
                             .finally(item.unload.bind(item))))
+                    //将二维数组降为一维数组
                     .then(results => Promise.resolve([].concat.apply([], results)));
             },
             search(){
@@ -109,7 +116,7 @@
                         this.searchList=list;
                         this.searchList.map(item=>{
                             item.excerpt=item.excerpt.replace(this.searchText,
-                            `<span class="content-search-text">${this.searchText}</span>`)
+                                `<span class="content-search-text">${this.searchText}</span>`)
                             return item
                         })
                     })
@@ -187,16 +194,23 @@
             padding: 0 px2rem(10);
             box-sizing: border-box;
             .slide-contents-book-title{
-                width: px2rem(153.75);
+                /*width: px2rem(153.75);*/
                 font-size: px2rem(14);
                 line-height: px2rem(16);
-                @include ellipsis2(2)
+                @include left;
+                .slide-contents-book-title-text{
+                    @include ellipsis2(3)
+                };
             }
             .slide-contents-book-author{
-                width: px2rem(153.75);
+                /*width: px2rem(153.75);*/
                 font-size: px2rem(12);
                 margin-top:px2rem(5);
-                @include ellipsis;
+                @include left;
+                line-height: px2rem(14);
+                .slide-contents-book-author-text{
+                    @include ellipsis2(1)
+                };
             }
         }
         .slide-contents-book-progress-wrapper{
@@ -230,7 +244,11 @@
                     line-height: px2rem(16);
                     @include ellipsis
                 }
-                .slide-contents-item-page{}
+                .slide-contents-item-page{
+                    flex: 0 0 px2rem(30);
+                    font-size: px2rem(10);
+                    @include right
+                }
             }
         }
         .slide-search-list{

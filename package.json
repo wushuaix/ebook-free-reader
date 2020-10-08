@@ -7,9 +7,14 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "epubjs": "0.3.78",
+    "localforage": "^1.7.3",
+    "path": "^0.12.7",
+    "require": "^2.4.20",
     "vue": "^2.6.11",
+    "vue-create-api": "^0.2.3",
     "vue-i18n": "^8.15.3",
     "vue-router": "^3.1.5",
     "vuex": "^3.1.2",
@@ -20,6 +25,7 @@
     "@vue/cli-plugin-router": "^4.2.0",
     "@vue/cli-plugin-vuex": "^4.2.0",
     "@vue/cli-service": "^4.2.0",
+    "mockjs": "^1.1.0",
     "node-sass": "^4.13.1",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"

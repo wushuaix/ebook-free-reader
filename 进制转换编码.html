@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  // let json=["5:53",]
+  // function transform(num,base) {
+  //   if (base===0){
+  //     alert("请输入正确的数据类型")
+  //   }
+  //   const stack=[]
+  //   let s=''
+  //   while (num!==0){
+  //       stack.push(num%base)
+  //       num=Math.floor(num/base)
+  //   }
+  //   let len=stack.length
+  //   for(let i=0;i<len;i++){
+  //       s+=stack.pop()
+  //   }
+  //   return s
+  // }
+  // t=transform(4,2)
+  // console.log(t);
+
+  //归并排序
+  function readonly(target,name,descriptor) {
+    descriptor.writable=false
+    return descriptor
+  }
+  class Person{
+    constructor() {
+      this.first='A'
+      this.last='B'
+    }
+    @readonly()
+    name(){
+      return `${this.first} ${this.last}`
+    }
+  }
+  let p=new Person()
+  console.log(p.name());
+</script>
+</body>
+</html>

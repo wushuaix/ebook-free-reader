@@ -4,7 +4,7 @@
       <transition name="slide-up">
         <div
           class="menu-wrapper"
-          :class="{'hide-box-shadow':!menuVisible ||settingVisible>=0}"
+          :class="{'hide-box-shadow':settingVisible>=0}"
           v-show="menuVisible"
         >
           <div class="icon-wrapper">
@@ -22,6 +22,7 @@
         </div>
       </transition>
       <ebook-setting-font></ebook-setting-font>
+      <ebook-setting-font-popup></ebook-setting-font-popup>
       <ebook-setting-theme></ebook-setting-theme>
       <ebook-setting-progress></ebook-setting-progress>
       <ebook-slide></ebook-slide>
@@ -29,25 +30,28 @@
   </div>
 </template>
 <script>
-import { ebookMixin } from "../../untils/mixin.js";
-import EbookSettingFont from "./EbookSettingFont";
-import EbookSettingTheme from "./EbookSettingTheme";
-import EbookSettingProgress from "./EbookSettingProgress";
-import EbookSlide from "./EbookSlide"
-export default {
-  mixins: [ebookMixin],
-  methods: {
-    showSetting(key) {
-      this.setSettingVisible(key);
-    }
-  },
-  components: {
-    EbookSettingFont,
-    EbookSettingTheme,
-    EbookSettingProgress,
-    EbookSlide
-  }
-};
+    import EbookSettingFontPopup from "./EbookSettingFontPopup";
+    import { ebookMixin } from "../../utils/mixin.js";
+    import EbookSettingFont from "./EbookSettingFont";
+    import EbookSettingTheme from "./EbookSettingTheme";
+    import EbookSettingProgress from "./EbookSettingProgress";
+    import EbookSlide from "./EbookSlide"
+    export default {
+      mixins: [ebookMixin],
+      methods: {
+        showSetting(key) {
+            //设置点击应该出现的组件
+          this.setSettingVisible(key);
+        }
+      },
+      components: {
+        EbookSettingFont,
+        EbookSettingTheme,
+        EbookSettingProgress,
+        EbookSlide,
+        EbookSettingFontPopup
+      }
+    };
 </script>
 <style lang="scss" scoped>
 @import "../../assets/styles/global";
@@ -55,7 +59,7 @@ export default {
   position: absolute;
   bottom: 0;
   left: 0;
-  z-index: 102;
+  z-index: 200;
   display: flex;
   width: 100%;
   height: px2rem(48);

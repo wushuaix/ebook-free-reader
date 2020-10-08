@@ -18,33 +18,42 @@ const routes = [{
         }]
     },
     {
-        path:'/store',
-        component:()=>import('./views/store/index.vue'),
-        redirect:'/store/shelf',
-        children:[
-            {
+        path: '/store',
+        component: () =>
+            import ('./views/store/index.vue'),
+        redirect: '/store/shelf',
+        children: [{
                 path: 'home',
-                component: ()=>import('./views/store/StoreHome.vue')
+                component: () =>
+                    import ('./views/store/StoreHome.vue'),
+                meta: {
+                    keepAlive: true // true 表示需要使用缓存, false表示不需要被缓存
+                }
             },
             {
-                path:'list',
-                component:()=>import('./views/store/StoreList.vue')
+                path: 'list',
+                component: () =>
+                    import ('./views/store/StoreList.vue')
             },
             {
-                path:'detail',
-                component:()=>import('./views/store/StoreDetail.vue')
+                path: 'detail',
+                component: () =>
+                    import ('./views/store/StoreDetail.vue')
             },
             {
-                path:'shelf',
-                component:()=>import('./views/store/StoreShelf.vue')
+                path: 'shelf',
+                component: () =>
+                    import ('./views/store/StoreShelf.vue')
             },
             {
-                path:'category',
-                component:()=>import('./views/store/StoreCategory.vue')
+                path: 'category',
+                component: () =>
+                    import ('./views/store/StoreCategory.vue')
             },
             {
-                path:'speaking',
-                component:()=>import('./views/store/StoreSpeaking.vue')
+                path: 'speaking',
+                component: () =>
+                    import ('./views/store/StoreSpeaking.vue')
             }
         ]
     },

@@ -13,7 +13,8 @@
                            max="100"
                            min="0"
                            step="1"
-                           @change="onProgressChange($event.target.value)" @input="onProgressInput($event.target.value)"
+                           @change="onProgressChange($event.target.value)"
+                           @input="onProgressInput($event.target.value)"
                            :value="progress"
                            :disabled="!bookAvailable"
                            ref="progress">
@@ -30,35 +31,33 @@
 </template>
 
 <script>
-    import { ebookMixin } from "../../untils/mixin.js";
+    import { ebookMixin } from "../../utils/mixin.js";
 
     export default {
         mixins:[ebookMixin],
-        computed:{
-
-        },
         data(){
             return{
 
             }
         },
         methods:{
-            //监控阅读电子书时展示和更新进度条
+            //拖动进度条结束后触发的事件
             onProgressChange(progress){
                 this.setProgress(progress).then(()=>{
                     this.displayProgress()
                     this.updateProgressBg()
                 })
             },
-            //更新显示电子书的进度条背景
+            //拖动进度条时的事件
             onProgressInput(progress){
                 this.setProgress(progress).then(()=>{
                     this.updateProgressBg()
                 })
             },
-            //此函数应用于渲染当前进度条的内容,渲染结束并更新当前进度
+            //渲染进度条对应的cfi
             displayProgress() {
                 const cfi = this.currentBook.locations.cfiFromPercentage(this.progress/100);
+                //console.log(cfi);
                 this.display(cfi)
             },
             //用于更新进度条的样式
@@ -85,12 +84,14 @@
             //渲染当前章节的内容
             displaySection(){
                 const sectionInfo=this.currentBook.section(this.section);
+                //console.log(sectionInfo)
                 if(sectionInfo&&sectionInfo.href){
                     this.display(sectionInfo.href)
                 }
             }
         },
         updated() {
+            //初始化时设置进度条的背景颜色
             this.updateProgressBg()
         }
     }
@@ -102,7 +103,7 @@
         position: absolute;
         bottom: px2rem(48);
         left: 0;
-        z-index: 101;
+        z-index: 190;
         width: 100%;
         height: px2rem(90);
         background: white;
@@ -131,12 +132,14 @@
                 };
                 .progress {
                     width: 100%;
+                    /*-webkit-appearance: none--覆盖默认样式*/
                     -webkit-appearance: none;
                     height: px2rem(2);
                     max-width: 0 px2rem(10);
                     &:focus {
                         outline: none;
                     }
+                    /*小手柄的样式*/
                     &::-webkit-slider-thumb {
                         -webkit-appearance: none;
                         height: px2rem(20);

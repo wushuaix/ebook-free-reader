@@ -1,16 +1,19 @@
 import Vue from 'vue'
-import App from './App.vue'
 import router from './router'
 import store from './store'
 import i18n from './lang/index.js'
 import './assets/styles/icon.css'
 import './assets/styles/global.scss'
+//import './mock'
+import './utils/boost'
+import './utils/create-api'
+import App from './App'
 
-Vue.config.productionTip = false
 
-new Vue({
+let vm=new Vue({
     router,
     store,
     i18n,
     render: h => h(App)
-}).$mount('#app')
+})
+vm.$mount('#app')

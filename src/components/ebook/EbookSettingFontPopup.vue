@@ -22,9 +22,9 @@
   </transition>
 </template>
 <script>
-import { ebookMixin } from "../../untils/mixin.js";
-import {saveFontFamily,getFontFamily} from "../../untils/localStorage.js";
-import {FONT_FAMILY} from "../../untils/book.js"
+import { ebookMixin } from "../../utils/mixin.js";
+import {saveFontFamily,getFontFamily} from "../../utils/localStorage.js";
+import {FONT_FAMILY} from "../../utils/book.js"
 export default {
   mixins:[ebookMixin],
   data(){
@@ -59,7 +59,7 @@ export default {
     left: 0;
     background: white;
     width: 100%;
-    z-index: 300;
+    z-index: 350;
     box-shadow: 0 px2rem(-4) px2rem(6) rgba(0,0,0,0.1);
   .ebook-popup-title{
     position: relative;
@@ -79,7 +79,6 @@ export default {
     .ebook-popup-title-text{
       font-size: px2rem(14);
       font-weight: bold;
-
     }
   }
   .ebook-popup-list-wrapper{
