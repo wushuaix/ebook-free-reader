@@ -102,6 +102,7 @@ export const ebookMixin = {
                     this.setSection(currentLocation.start.index);
                     //本地持久化存储刷新后的值
                     saveLocation(this.fileName,startCfi);
+                    //处理书签
                     const bookmark=getBookmark(this.fileName)
                     if(bookmark){
                         if(bookmark.some(item=>item.cfi===startCfi)){
@@ -112,6 +113,7 @@ export const ebookMixin = {
                     }else{
                         this.setIsBookmark(false)
                     }
+                    //处理分页
                     if(this.pagelist){
                         const totalPage=this.pagelist.length;
                         const currentPage=currentLocation.start.location;

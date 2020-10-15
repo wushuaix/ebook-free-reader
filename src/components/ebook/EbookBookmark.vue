@@ -38,14 +38,13 @@
                    return
                 }
                 if(v>=this.height&&v<this.threshold){
-                    this.setIsBookmark(false);
                     //状态2:未到达临界状态
                     this.beforeThreshold(v)
                 }else if(v>=this.threshold){
                     //状态3:超越临界状态
                     this.afterThreshold(v)
                 }else if(v>0&&v<this.height){
-                    //状态1:
+                    //状态1:没有超过本身height值
                     this.beforeHeight()
                 }else if(v===0){
                     this.restore()
@@ -64,6 +63,7 @@
             height() {
                 return realPx(35)
             },
+            //临界值
             threshold() {
                 return realPx(55)
             },
@@ -76,16 +76,6 @@
             }
         },
         methods:{
-            removeBookmark(){
-                const currentLocation = this.currentBook.rendition.currentLocation()
-                const cfi = currentLocation.start.cfi
-                this.bookmark=getBookmark(this.fileName)
-                if (this.bookmark) {
-                    this.bookmark = this.bookmark.filter(item => item.cfi !== cfi)
-                    saveBookmark(this.fileName, this.bookmark)
-                }
-                this.setIsBookmark(false)
-            },
             addBookmark(){
                 this.bookmark=getBookmark(this.fileName);
                 if(!this.bookmark){
@@ -103,22 +93,40 @@
                         cfi:currentLocation.start.cfi,
                         text:text
                     })
-                    this.setIsBookmark(true)
+                    //this.setIsBookmark(true)
                     saveBookmark(this.fileName,this.bookmark)
                 })
             },
-            //状态4:归位
-            restore(){
-                setTimeout(()=>{
-                    this.$refs.ebookBookmark.style.top=`${-this.height}px`
-                    this.$refs.iconDown.style.transform='rotate(0deg)'
-                },200)
-                if(this.isFixed){
-                    this.setIsBookmark(true)
-                    this.addBookmark()
-                }else{
+            removeBookmark(){
+                const currentLocation = this.currentBook.rendition.currentLocation()
+                const cfi = currentLocation.start.cfi
+                this.bookmark=getBookmark(this.fileName)
+                if (this.bookmark) {
+                    this.bookmark = this.bookmark.filter(item => item.cfi !== cfi)
+                    saveBookmark(this.fileName, this.bookmark)
                     this.setIsBookmark(false)
-                    this.removeBookmark()
+                }
+            },
+            //状态1:未超过书签的高度
+            beforeHeight(){
+                if(this.isBookmark){
+                    this.text=this.$t('book.pulldownDeleteMark');
+                    this.color=BLUE;
+                    this.isFixed=true
+                }else{
+                    this.text=this.$t('book.pulldownAddMark');
+                    this.color=WHITE;
+                    this.isFixed=false
+                }
+            },
+            //状态2:未到达临界状态
+            beforeThreshold(v){
+                //大于自身高度时做相对移动,有吸顶效果
+                this.$refs.ebookBookmark.style.top=`${-v}px`;
+                this.beforeHeight()
+                const iconDown=this.$refs.iconDown;
+                if (iconDown.style.transform==='rotate(180deg)'){
+                    iconDown.style.transform='rotate(0deg)'
                 }
             },
             //状态3:超越临界状态
@@ -133,34 +141,25 @@
                     this.color=BLUE;
                     this.isFixed=true
                 }
-                this.text=this.$t('book.releaseAddMark');
-                this.color=BLUE;
                 const iconDown=this.$refs.iconDown;
                 if (iconDown.style.transform===''||
                     iconDown.style.transform==='rotate(0deg)'){
                     iconDown.style.transform='rotate(180deg)'
                 }
-                this.isFixed=true
             },
-            //状态2:未到达临界状态
-            beforeThreshold(v){
-                this.$refs.ebookBookmark.style.top=`${-v}px`;
-                this.beforeHeight()
-                const iconDown=this.$refs.iconDown;
-                if (iconDown.style.transform==='rotate(180deg)'){
-                    iconDown.style.transform='rotate(0deg)'
-                }
-            },
-            //状态1:未超过书签的高度
-            beforeHeight(){
-                if(this.isBookmark){
-                    this.text=this.$t('book.pulldownDeleteMark');
-                    this.color=BLUE;
-                    this.isFixed=true
+            //状态4:归位
+            restore(){
+                //动画执行完再归位
+                setTimeout(()=>{
+                    this.$refs.ebookBookmark.style.top=`${-this.height}px`
+                    this.$refs.iconDown.style.transform='rotate(0deg)'
+                },200)
+                if(this.isFixed){
+                    this.setIsBookmark(true)
+                    this.addBookmark()
                 }else{
-                    this.text=this.$t('book.pulldownAddMark');
-                    this.color=WHITE;
-                    this.isFixed=false
+                    this.setIsBookmark(false)
+                    this.removeBookmark()
                 }
             }
         }

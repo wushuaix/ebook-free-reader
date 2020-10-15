@@ -1,5 +1,6 @@
 <template>
   <div class="book-detail">
+    <!--顶部图标信息-->
     <detail-title @back="back"
                   :showShelf="true"
                   ref="title"></detail-title>
@@ -8,10 +9,12 @@
             :bottom="52"
             @onScroll="onScroll"
             ref="scroll">
+      <!--图书封面，作者等信息-->
       <book-info :cover="cover"
                  :title="title"
                  :author="author"
                  :desc="desc"></book-info>
+      <!--图书版权相关信息-->
       <div class="book-detail-content-wrapper">
         <div class="book-detail-content-title">{{$t('detail.copyright')}}</div>
         <div class="book-detail-content-list-wrapper">
@@ -33,6 +36,7 @@
           </div>
         </div>
       </div>
+      <!--图书目录相关信息-->
       <div class="book-detail-content-wrapper">
         <div class="book-detail-content-title">{{$t('detail.navigation')}}</div>
         <div class="book-detail-content-list-wrapper">
@@ -40,8 +44,7 @@
             <span class="loading-text">{{$t('detail.loading')}}</span>
           </div>
           <div class="book-detail-content-item-wrapper">
-            <div class="book-detail-content-item" v-for="(item, index) in flatNavigation" :key="index"
-                 @click="read(item)">
+            <div class="book-detail-content-item" v-for="(item, index) in flatNavigation" :key="index">
               <div class="book-detail-content-navigation-text"
                    :class="{'is-sub': item.deep> 1}"
                    :style="itemStyle(item)"
@@ -51,6 +54,7 @@
           </div>
         </div>
       </div>
+<!--        图书试读相关-->
       <div class="book-detail-content-wrapper">
         <div class="book-detail-content-title">{{$t('detail.trial')}}</div>
         <div class="book-detail-content-list-wrapper">
@@ -61,6 +65,7 @@
         <div id="preview" v-show="this.displayed" ref="preview"></div>
       </div>
     </scroll>
+<!--      底部阅读、加入书架、听书开发-->
     <div class="bottom-wrapper">
       <div class="bottom-btn" @click.stop.prevent="readBook()">{{$t('detail.read')}}</div>
       <div class="bottom-btn" @click.stop.prevent="trialListening()">{{$t('detail.listen')}}</div>
@@ -69,6 +74,7 @@
         {{inBookShelf ? $t('detail.isAddedToShelf') : $t('detail.addOrRemoveShelf')}}
       </div>
     </div>
+<!--      弹窗组件-->
     <toast :text="toastText" ref="toast"></toast>
   </div>
 </template>
@@ -196,9 +202,26 @@
           }
         })
       },
+      //点击目录名。跳转到对应的图书部分
       read(item) {
-        this.$router.push({
-          path: `/ebook/${this.categoryText}|${this.fileName}`
+        getLocalForage(this.bookItem.fileName, (err, value) => {
+          if (!err && value instanceof Blob) {
+            this.$router.push({
+              path: `/ebook/${this.bookItem.fileName}`,
+              query: {
+                navigation: item.href
+              }
+            })
+          } else {
+            // this.showToast(this.$t('shelf.downloadFirst'))
+            this.$router.push({
+              path: `/ebook/${this.bookItem.fileName}`,
+              query: {
+                navigation: item.href,
+                opf: this.opf
+              }
+            })
+          }
         })
       },
       itemStyle(item) {

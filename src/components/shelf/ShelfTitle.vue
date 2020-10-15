@@ -1,13 +1,16 @@
 <template>
     <transition name="fade">
         <div class="shelf-title" :class="{'hide-shadow':ifHideShadow}" v-show="shelfTitleVisible">
+<!--            选择图书主标题和副标题-->
             <div class="shelf-title-text-wrapper">
                 <span class="shelf-title-text">{{title}}</span>
                 <span class="shelf-title-sub-text" v-show="isEditMode">{{selectedText}}</span>
             </div>
+<!--            清除缓存-->
             <div class="shelf-title-btn-wrapper shelf-title-left" v-if="showClear">
                 <span class="shelf-title-btn-text" @click="clearCache">{{$t('shelf.clearCache')}}</span>
             </div>
+<!--            点击编辑或者取消-->
             <div class="shelf-title-btn-wrapper shelf-title-right" v-if="showEdit">
                 <span class="shelf-title-btn-text" @click="onEditClick">{{isEditMode?$t('shelf.cancel'):$t('shelf.edit')}}</span>
             </div>

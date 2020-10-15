@@ -1,6 +1,7 @@
 <template>
     <div class="store">
-        <keep-alive>
+<!--        include里面是组件的名字,非路由名称-->
+        <keep-alive include="StoreHome">
             <router-view></router-view>
         </keep-alive>
     </div>
@@ -8,7 +9,7 @@
 
 <script>
     export default {
-        
+
     }
 </script>
 

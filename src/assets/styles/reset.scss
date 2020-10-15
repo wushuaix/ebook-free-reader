@@ -144,5 +144,6 @@ body {
     //新增user-select和font-family样式
     user-select: none;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif, Arial, Helvetica, sans-serif;
+    //移动端点击出现闪烁问题
     -webkit-tap-highlight-color: rgba(0, 0, 0 ,0);
 }
