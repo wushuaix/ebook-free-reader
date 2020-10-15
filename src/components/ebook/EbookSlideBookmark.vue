@@ -2,7 +2,7 @@
     <div class="ebook-slide-bookmark">
         <div class="slide-bookmark-title">{{$t('book.bookmark')}} · {{bookmark ? bookmark.length : 0}}</div>
         <scroll class="slide-bookmark-list" :top="48" :bottom="48">
-            <div class="slide-bookmark-item" v-for="(item, index) in bookmark" :key="index" @click="display(item.cfi)">
+            <div class="slide-bookmark-item" v-for="(item, index) in bookmark" :key="index" @click="goToPage(item.cfi)">
                 <div class="slide-bookmark-item-icon">
                     <div class="icon-bookmark"></div>
                 </div>
@@ -29,6 +29,12 @@
         },
         mounted() {
             this.bookmark = getBookmark(this.fileName)
+        },
+        methods:{
+            goToPage(target){
+                this.display(target)
+                this.hideTitleAndMenu()
+            }
         }
     }
 </script>

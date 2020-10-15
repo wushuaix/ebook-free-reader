@@ -21,14 +21,12 @@ const routes = [{
         path: '/store',
         component: () =>
             import ('./views/store/index.vue'),
-        redirect: '/store/shelf',
-        children: [{
+        redirect: '/store/home',
+        children: [
+            {
                 path: 'home',
                 component: () =>
-                    import ('./views/store/StoreHome.vue'),
-                meta: {
-                    keepAlive: true // true 表示需要使用缓存, false表示不需要被缓存
-                }
+                    import ('./views/store/StoreHome.vue')
             },
             {
                 path: 'list',

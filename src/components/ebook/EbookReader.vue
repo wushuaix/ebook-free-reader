@@ -41,10 +41,12 @@
             },
             onMouseMove(e){
                 if(this.mouseState===1){
+                    //真正处理的是鼠标
                     this.mouseState=2
                 }else if(this.mouseState===2){
                     let offsetY=0;
                     if(this.firstOffsetY){
+                        //组件解耦带来的好处
                         offsetY=e.clientY-this.firstOffsetY;
                         this.setOffsetY(offsetY)
                     }else{
@@ -189,7 +191,7 @@
                     width: innerWidth,
                     height: innerHeight,
                     method: "default",
-                    //flow:'scrolled'表示一直拖动页面显示
+                    //flow:'scrolled'此模式表示可以拖动页面向上或者向下显示,兼容性不太好
                 });
                 //本地存储获取电子书的名称
                 const location=getLocation(this.fileName);
@@ -250,15 +252,19 @@
                     return this.book.locations.generate(750*(window.innerWidth/
                         375)*(getFontSize(this.fileName)/16))
                 }).then(locations=>{
+                    //遍历目录
                     this.navigation.forEach(item=>{
                         item.pagelist=[]
                     });
+                    //遍历页面位置对象
                     locations.forEach(item=>{
                         const loc=item.match(/\[(.*)\]!/)[1];
+                        //遍历目录
                         this.navigation.forEach(nav=>{
                             if(nav.href){
                                 const href=nav.href.match(/^(.*)\.html$/)[1];
                                 if(href===loc){
+                                    //将location对应到各个目录当中去
                                     nav.pagelist.push(item)
                                 }
                             }
