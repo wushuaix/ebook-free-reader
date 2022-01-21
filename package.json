@@ -9,7 +9,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
-    "epubjs": "0.3.78",
+    "epubjs": "0.3.89",
     "localforage": "^1.7.3",
     "path": "^0.12.7",
     "require": "^2.4.20",
